@@ -3,6 +3,7 @@ import pandas as pd
 import joblib
 import urllib.request
 import os
+import requests
 
 # Load trained model
 model_url = 'https://github.com/BoppingNoodles/SpotifyHitPredictor/releases/download/v1.0/song_hit_model.pkl'
@@ -15,7 +16,8 @@ features = ['danceability', 'energy', 'loudness', 'instrumentalness', 'tempo']
 
 if not os.path.exists(model_path):
     with st.spinner("Downloading model..."):
-        urllib.request.urlretrieve(model_url, model_path)
+        r = requests.get(model_url, allow_redirects=True)
+        open(model_path, 'wb').write(r.content)
 rfc_model = joblib.load(model_path)
 # App title and instructions
 st.title("Hit Song Predictor")
