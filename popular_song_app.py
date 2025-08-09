@@ -1,13 +1,21 @@
 import streamlit as st
 import pandas as pd
 import joblib
+import urllib.request
+import os
 
 # Load trained model
-rfc_model = joblib.load("song_hit_model.pkl")
+model_url = 'https://drive.google.com/uc?export=download&id=1NxDS9c3ElqVFORdkG0gfAPRLnE-ty2OE'
+model_path = "song_hit_model.pkl"
+
 
 # Set feature names
 features = ['danceability', 'energy', 'loudness', 'instrumentalness', 'tempo']
 
+if not os.path.exists(model_path):
+    with st.spinner("Downloading model..."):
+        urllib.request.urlretrieve(model_url, model_path)
+rfc_model = joblib.load(model_path)
 # App title and instructions
 st.title("Hit Song Predictor")
 st.write("Use the sliders to simulate a song and see if it's likely to be a hit.")
@@ -30,7 +38,6 @@ probability = rfc_model.predict_proba(input_df)[0][1]
 # Set custom threshold
 threshold = 0.06
 
-st.write(f"Model predicted probablity of being a hit: {probability:.2f}")
 # Display prediction
 if probability > threshold:
     st.success(f"The song is likely to be a **HIT**!")
