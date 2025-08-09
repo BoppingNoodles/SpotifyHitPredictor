@@ -5,8 +5,9 @@ import urllib.request
 import os
 
 # Load trained model
-model_url = 'https://drive.google.com/uc?export=download&id=1NxDS9c3ElqVFORdkG0gfAPRLnE-ty2OE'
+model_url = 'https://github.com/BoppingNoodles/SpotifyHitPredictor/releases/download/v1.0/song_hit_model.pkl'
 model_path = "song_hit_model.pkl"
+
 
 
 # Set feature names
